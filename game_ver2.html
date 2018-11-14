@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+
+<style>
+
+.card-ontop {
+	z-index: 1000;
+}
+
+#result {
+	margin-left: 6em;
+	margin-top: 6em;
+}
+
+#game {
+	margin-left: 5em !important;
+}
+
+.card {
+	cursor: pointer;
+margin: 5px;
+float: left;
+	border-radius: 25px;
+    width: 200px;
+    height: 200px;
+    position: relative;
+<!--     border: 1px solid #ccc; -->
+transition: -webkit-transform 1s ease-in;
+  -webkit-transform-style: preserve-3d;
+	
+}
+*:focus{
+	outline:none !important;
+}
+
+
+.card-result {
+margin: 5px;
+float: left;
+	border-radius: 25px;
+    width: 200px;
+    height: 200px;
+    position: relative;
+<!--     border: 1px solid #ccc; -->
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    -o-perspective: 800px;
+    perspective: 800px;
+}
+*:focus{
+	outline:none !important;
+}
+
+.card-inner {
+
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+	background-color: white;
+    border-radius: 100px;
+	z-index:100;
+	-webkit-backface-visibility: hidden;
+}
+.card-inner-back {
+
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+	background-color: white;
+    border-radius: 100px;
+	-webkit-transform: rotateY(-180deg);
+	-webkit-backface-visibility: hidden;
+}
+.card-inner div {
+    border-radius: 100px;
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 260px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 140px;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+	box-shadow: 5px 5px 2px grey;
+	background-color: white;
+}
+.card-inner-img {
+	width: 60%;
+    height: 70%;
+    top: 30px;
+    position: absolute;
+    left: 40px;
+}
+
+.card-inner-border {
+	width: 150%;
+	height: 150%;
+    top: -45px;
+    position: absolute;
+    left: -43px;
+}
+
+.coin-flip{
+  -webkit-animation: flip 3s ease-out forwards;
+  -moz-animation: flip 3s ease-out forwards;
+    -o-animation: flip 3s ease-out forwards;
+       animation: flip 3s ease-out forwards;
+}
+
+@-webkit-keyframes flip {
+  from { -webkit-transform: rotateY(0); -moz-transform: rotateY(0); transform: rotateY(0); }
+  to { -webkit-transform: rotateY(1800deg); -moz-transform: rotateY(1800deg); transform: rotateY(1800deg); }
+}
+
+.bounce {
+  animation-name: bounce;
+  -webkit-animation-name: bounce;
+  animation-duration: 1.6s;
+  -webkit-animation-duration: 1.6s;
+  animation-timing-function: ease;
+  -webkit-animation-timing-function: ease;
+  transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0%) scaleY(0.6);
+  }
+  60% {
+    transform: translateY(-100%) scaleY(1.1);
+  }
+  70% {
+    transform: translateY(0%) scaleY(0.95) scaleX(1.05);
+  }
+  80% {
+    transform: translateY(0%) scaleY(1.05) scaleX(1);
+  }
+  90% {
+    transform: translateY(0%) scaleY(0.95) scaleX(1);
+  }
+  100% {
+    transform: translateY(0%) scaleY(1) scaleX(1);
+  }
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: translateY(0%) scaleY(0.6);
+  }
+  60% {
+    -webkit-transform: translateY(-100%) scaleY(1.1);
+  }
+  70% {
+    -webkit-transform: translateY(0%) scaleY(0.95) scaleX(1.05);
+  }
+  80% {
+    -webkit-transform: translateY(0%) scaleY(1.05) scaleX(1);
+  }
+  90% {
+    -webkit-transform: translateY(0%) scaleY(0.95) scaleX(1);
+  }
+  100% {
+    -webkit-transform: translateY(0%) scaleY(1) scaleX(1);
+  }
+}
+
+.overlay {
+ 	position:absolute;
+	display:none; 
+
+    /* color with alpha transparency */
+    background-color: rgba(0, 0, 0, 0.7);
+
+    /* stretch to screen edges */
+    top: 0;
+	left: 0;
+    bottom: 0;
+    right: 0;
+}
+.popup {
+
+    display: none;
+    background: rgba(255,255,255,0);
+
+
+   width: Xu;
+   height: Yu;
+   position: absolute;
+   top: 20%;
+   left: 20%;
+   margin-left: -(X/2)u;
+   margin-top: -(Y/2)u;
+}
+
+.slide-in {
+    animation: slide-in 10s forwards;
+    -webkit-animation: slide-in 10s forwards;
+}
+    .scale {
+        transition: all .2s ease-in-out;
+        transform: scale(1.1);
+    }
+	
+         @-webkit-keyframes wobble { 
+            0% { -webkit-transform: translateY(0%); } 
+            15% { -webkit-transform: translateY(-25%) rotate(-5deg); } 
+            30% { -webkit-transform: translateY(20%) rotate(3deg); } 
+            45% { -webkit-transform: translateY(-15%) rotate(-3deg); } 
+            60% { -webkit-transform: translateY(10%) rotate(2deg); } 
+            75% { -webkit-transform: translateY(-5%) rotate(-1deg); }
+            100% { -webkit-transform: translateY(0%); } 
+         }
+         
+         @keyframes wobble { 
+            0% { -webkit-transform: translateY(0%); } 
+            15% { -webkit-transform: translateY(-25%) rotate(0deg); } 
+            30% { -webkit-transform: translateY(20%) rotate(0deg); } 
+            45% { -webkit-transform: translateY(-15%) rotate(0deg); } 
+            60% { -webkit-transform: translateY(10%) rotate(0deg); } 
+            75% { -webkit-transform: translateY(-5%) rotate(0deg); }
+            100% { -webkit-transform: translateY(0%); } 
+         }
+         
+         .wobble { 
+		             -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation-name: wobble; 
+            animation-name: wobble;
+			z-index: 5;
+         }	
+		 
+.flipped {
+
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}		 
+</style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/src/js/jquery.ui.touch-punch.min.js"></script>
+
+<body>
+<div id="game" class="container-fluid">
+</div>
+<div class="overlay"></div>
+<div class="popup"><div id="result-popup"></div></div>
+<script>
+var maincount = 0;
+//C:/Users/Anwender/netcase/game
+var images = [];
+var ImagesPicture = [];
+var ImagesText = [];
+var ImagesSign = [];
+// Hier auch nochmal für die game Elemente selbst
+var root = '/src/images/';
+var TypeCount = 3;
+var PairCount = 4;
+var CardCount = 0;
+
+var gameState = "game";
+
+var stateRedDropped = false;
+var stateBlueDropped = false;
+var stateYellowDropped = false;
+
+var stateRedDroppedType = 0;
+var stateBlueDroppedType = 0;
+var stateYellowDroppedType = 0;
+
+//Type 1: Signs
+//Type 2: Pictures
+//Type 3: Text
+
+	$(".overlay").click(function () {
+		//if (gameState === 'result')
+		//{
+			$(".popup, .overlay").fadeToggle();
+			//gameState = 'game';
+			$('#droppable-red').html("<section class=\"card-inner\"><div class=\"card-img\" style=\"border: 10px solid red;\"></div></section>");
+			$('#droppable-blue').html("<section class=\"card-inner\"><div class=\"card-img\" style=\"border: 10px solid blue;\"></div></section>");
+			$('#droppable-yellow').html("<section class=\"card-inner\"><div class=\"card-img\" style=\"border: 10px solid yellow;\"></div></section>");
+			$('#droppable-red').removeClass("wobble");
+			$('#droppable-blue').removeClass("wobble");
+			$('#droppable-yellow').removeClass("wobble");					
+			stateRedDropped = false;
+			stateBlueDropped = false;
+			stateYellowDropped = false;
+			stateRedDroppedType = 0;
+			stateBlueDroppedType = 0;
+			stateYellowDroppedType = 0;				
+			/*if (MainCount >= CardCount)
+			{
+				state = 'finished';
+				setTimeout(function() {$(".overlay, .endofgame").fadeToggle();},1000);
+			}*/
+		//}
+	});
+
+for (var i = 1; i <= TypeCount; i++) {
+	var imgRoot = ''+root+''+i+'_';
+
+// get images, place them in an array & randomize the order
+for (var j = 1; j <= PairCount; j++) { 
+  //var rand = Math.floor((Math.random() * 16) + 1);
+  
+  var img1 = ''+imgRoot+''+j+'.png';
+  images.push(img1);
+  CardCount++;
+}
+if (CardCount == PairCount)
+{
+	ImagesSign = images;
+}
+else if (CardCount == PairCount * 2)
+{
+	ImagesPicture = images;
+}
+else
+{
+	ImagesText = images;
+}
+images = [];
+}
+randomizeImages();
+
+
+
+// output images then hide them
+
+var output = ""; 
+for (var i = 1; i <= 3; i++) {
+	//output += "<div class=\"row\" id=\"area-";
+	//output += ""+i+"\">";
+	output += "<div id=\"row_" +i+ "\" class=\"row\">";
+	for (var j = 0; j < PairCount; j++) {
+			
+		
+		if (i == 1)
+		{
+			output += "<div id=\""+ i +"_"+ ImagesSign[j].split(".")[0].split("_")[1] +"\" class=\"card\" >";
+			output += "<section class=\"card-inner\">";
+			//output += "<div class=\"card-img\" style=\"border: 10px solid red;\">";
+			output += "<img class=\"card-inner-img\" src = '" + ImagesSign[j] + "'/>";
+			output += "<img class=\"card-inner-border\" src = '"+ root +"back_red.png'/>";
+			output += "</section>";
+			output += "<section class=\"card-inner-back\">";
+			output += "<img class=\"card-inner-img\" src = '"+ root +"YT.png'/>";
+			output += "<img class=\"card-inner-border\" src = '"+ root +"back_red.png'/>";
+			output += "</section>";
+		}
+		else if (i == 2)
+		{
+			output += "<div id=\""+ i +"_"+ ImagesPicture[j].split(".")[0].split("_")[1] +"\" class=\"card\">";
+			output += "<section class=\"card-inner\">";
+			//output += "<div class=\"card-img\" style=\"border: 10px solid blue;\">";
+			output += "<img class=\"card-inner-img\" src = '" + ImagesPicture[j] + "'/>";
+			output += "<img class=\"card-inner-border\" src = '"+ root +"back_blue.png'/>";	
+			output += "</section>";
+			output += "<section class=\"card-inner-back\">";
+			output += "<img class=\"card-inner-img\" src = '"+ root +"YT.png'/>";
+			output += "<img class=\"card-inner-border\" src = '"+ root +"back_blue.png'/>";
+			output += "</section>";
+		}
+		else
+		{
+			output += "<div id=\""+ i +"_"+ ImagesText[j].split(".")[0].split("_")[1] +"\" class=\"card\">";
+			output += "<section class=\"card-inner\">";
+			//output += "<div class=\"card-img\" style=\"border: 10px solid yellow;\">";
+			output += "<img class=\"card-inner-img\" src = '" + ImagesText[j] + "'/>";
+			output += "<img class=\"card-inner-border\" src = '"+ root +"back_yellow.png'/>";
+			output += "</section>";
+			output += "<section class=\"card-inner-back\">";
+			output += "<img class=\"card-inner-img\" src = '"+ root +"YT.png'/>";
+			output += "<img class=\"card-inner-border\" src = '"+ root +"back_yellow.png'/>";
+			output += "</section>";
+		}
+		output += "</div>";
+		
+	}
+	//output += "</ul>";
+	output += "</div>";
+}
+output += "";
+
+output += "<div id=\"result\" class=\"row\">";
+output += "<div id=\"droppable-red\" class=\"card-result\">";
+output += "<section class=\"card-inner\">";
+output += "<div class=\"card-img\" style=\"border: 10px solid red;\">";
+output += "</div></section>";
+output += "</div>";
+output += "<div id=\"droppable-blue\" class=\"card-result\">";
+output += "<section class=\"card-inner\">";
+output += "<div class=\"card-img\" style=\"border: 10px solid blue;\">";
+output += "</div></section>";
+output += "</div>";
+output += "<div id=\"droppable-yellow\" class=\"card-result\">";
+output += "<section class=\"card-inner\">";
+output += "<div class=\"card-img\" style=\"border: 10px solid yellow;\">";
+output += "</div></section>";
+output += "</div>";
+output += "</div>";
+
+document.getElementById("game").innerHTML = output;
+
+// randomize array of images
+function randomizeImages(){
+  Array.prototype.randomize = function()
+  {
+    var i = this.length, j, temp;
+    while ( --i )
+    {
+      j = Math.floor( Math.random() * (i - 1) );
+      temp = this[i];
+      this[i] = this[j];
+      this[j] = temp;
+    }
+  };
+
+  ImagesPicture.randomize();
+  ImagesSign.randomize();
+  ImagesText.randomize();
+  /*var j, temp;
+  for (var i = PairCount; i < 0; --i)
+  {
+	      j = Math.floor( Math.random() * (i - 1) );
+      temp = this[i];
+      this[i] = this[j];
+      this[j] = temp;
+  }*/
+}
+
+  $( function() {
+    $( ".card" ).draggable({
+		revert: "invalid",
+     start: function( event, ui ) {
+         $(this).addClass('card-ontop'); 
+     },
+     stop: function( event, ui ) {
+         $(this).removeClass('card-ontop'); 
+     }
+	});
+	
+    $( "#droppable-red" ).droppable({
+      accept: function(card) {
+		var cardType = card.attr("id").split("_");
+		if (cardType[0]==1 && !stateRedDropped && (stateBlueDroppedType == 0 || stateBlueDroppedType == cardType[1]) && (stateYellowDroppedType == 0 || stateYellowDroppedType == cardType[1])){
+			return true;
+		}
+	  },
+      over: function( event, ui ) {
+		$( this ).find("div").addClass("scale");
+      },
+      out: function( event, ui ) {
+		$( this ).find("div").removeClass("scale");
+      },		  
+      drop: function( event, ui ) {
+		stateRedDropped = true;
+		console.log("red: " + ui.draggable.attr("id").split("_")[1]);
+		stateRedDroppedType = ui.draggable.attr("id").split("_")[1];
+        $( this ).html(ui.draggable.html());
+		$( this ).addClass("coin-flip");
+		$('#row_1').addClass("slide-in");
+		console.log($('row_1'));
+		ui.draggable.remove();
+		if(stateBlueDropped && stateYellowDropped){
+			setTimeout(function() {
+			$('#droppable-red').removeClass("coin-flip");
+			$('#droppable-blue').removeClass("coin-flip");
+			$('#droppable-yellow').removeClass("coin-flip");
+			},3000);			
+		setTimeout(function() {
+			document.getElementById('result-popup').innerHTML = $('#result').html();			
+			$(".overlay, .popup").fadeToggle();					
+		},4000);	
+		}	
+      }
+    });
+	
+	$( "#droppable-blue" ).droppable({
+      accept: function(card) {
+		var cardType = card.attr("id").split("_");
+		if (cardType[0]==2 && !stateBlueDropped && (stateRedDroppedType == 0 || stateRedDroppedType == cardType[1]) && (stateYellowDroppedType == 0 || stateYellowDroppedType == cardType[1])){
+			return true;
+		}
+	  },
+      over: function( event, ui ) {
+		$( this ).find("div").addClass("scale");
+      },
+      out: function( event, ui ) {
+		$( this ).find("div").removeClass("scale");
+      },	
+      drop: function( event, ui ) {
+		stateBlueDropped = true;
+		console.log("blue: " + ui.draggable.attr("id").split("_")[1]);		
+		stateBlueDroppedType = ui.draggable.attr("id").split("_")[1];
+        $( this ).html(ui.draggable.html());
+		$( this ).addClass("coin-flip");
+		ui.draggable.remove();
+		if(stateRedDropped && stateYellowDropped){	
+			setTimeout(function() {
+			$('#droppable-red').removeClass("coin-flip");
+			$('#droppable-blue').removeClass("coin-flip");
+			$('#droppable-yellow').removeClass("coin-flip");
+			},3000);			
+		setTimeout(function() {
+			document.getElementById('result-popup').innerHTML = $('#result').html();	
+			$(".overlay, .popup").fadeToggle();					
+		},4000);	
+		}
+      }
+    });
+	
+	$( "#droppable-yellow" ).droppable({
+      accept: function(card) {
+		var cardType = card.attr("id").split("_");
+		//console.log(cardType[0]);
+		if (cardType[0]==3 && !stateYellowDropped && (stateBlueDroppedType == 0 || stateBlueDroppedType == cardType[1]) && (stateRedDroppedType == 0 || stateRedDroppedType == cardType[1])){
+			return true;
+		}
+	  },
+      over: function( event, ui ) {
+		$( this ).find("div").addClass("scale");
+      },
+      out: function( event, ui ) {
+		$( this ).find("div").removeClass("scale");
+      },	
+      drop: function( event, ui ) {
+		stateYellowDropped = true;
+		console.log("yellow: " + ui.draggable.attr("id").split("_")[1]);
+		stateYellowDroppedType = ui.draggable.attr("id").split("_")[1];
+        $( this ).html(ui.draggable.html());
+		$( this ).addClass("coin-flip");
+		ui.draggable.remove();
+		if(stateRedDropped && stateBlueDropped){
+			setTimeout(function() {
+			$('#droppable-red').removeClass("coin-flip");
+			$('#droppable-blue').removeClass("coin-flip");
+			$('#droppable-yellow').removeClass("coin-flip");
+			},3000);			
+		setTimeout(function() {
+			document.getElementById('result-popup').innerHTML = $('#result').html();
+			$(".overlay, .popup").fadeToggle();					
+		},4000);	
+		}				
+      }
+    });
+  } );
+</script>
+</body>
